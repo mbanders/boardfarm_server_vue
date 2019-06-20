@@ -9,6 +9,7 @@ import Vuex from 'vuex'
 import BootstrapVue from 'bootstrap-vue'
 import App from './App'
 import router from './router'
+import store from './store/store'
 
 // todo
 // cssVars()
@@ -20,6 +21,7 @@ Vue.use(Vuex)
 new Vue({
   el: '#app',
   router,
+  store,
   template: '<App/>',
   components: {
     App
