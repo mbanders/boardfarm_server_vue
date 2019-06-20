@@ -19,6 +19,12 @@ A simple front-end web application for boardfarm.
     cd boardfarm_server_vue/
     npm install
     ```
+1. Let this app know where the backend is served from. Edit the file `src/store/store.js`:
+    ```js
+    loadStations ({ commit }) {
+        axios
+        .get('http://boardfarm.bluejam.net/api/stations')
+    ```
 1. Start server
     ```sh
     npm run serve
