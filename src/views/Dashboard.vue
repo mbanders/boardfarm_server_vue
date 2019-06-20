@@ -2,7 +2,7 @@
   <div class="animated fadeIn">
     <b-row>
 
-      <b-col sm="6" lg="3" v-for="station in stations" v-bind:key="staion.name">
+      <b-col sm="6" lg="3" v-for="station in stations" v-bind:key="station.name">
         <b-card no-body class="bg-primary">
           <b-card-body class="pb-0">
             <b-dropdown class="float-right" variant="transparent p-0" right>
@@ -15,9 +15,24 @@
               <b-dropdown-item disabled>Disabled action</b-dropdown-item>
             </b-dropdown>
             <h4 class="mb-0">{{ station.name }}</h4>
-            <p>Members online</p>
+            <p>Type: {{ station.board_type }}<br>
+               Location: {{station.location}}<br>
+               Features: <span v-for="(x, index) in station.feature" v-bind:key="x">
+                   <span>{{x}}</span><span v-if="index+1 < station.feature.length">, </span>
+                </span>
+            </p>
           </b-card-body>
-          <card-line1-chart-example chartId="card-chart-01" class="chart-wrapper px-3" style="height:70px;" :height="70"/>
+          <!-- <card-line1-chart-example chartId="card-chart-01" class="chart-wrapper px-3" style="height:70px;" :height="70"/> -->
+          <div class="brand-card-body">
+            <div>
+              <div class="text-value">{{ station.active_users }}</div>
+              <div class="text-uppercase small">Active Users</div>
+            </div>
+            <div>
+              <div class="text-value">7</div>
+              <div class="text-uppercase small">Total Uses</div>
+            </div>
+          </div>
         </b-card>
       </b-col>
 
@@ -90,7 +105,17 @@
             <h4 class="mb-0">9.823</h4>
             <p>Members online</p>
           </b-card-body>
-          <card-bar-chart-example chartId="card-chart-04" class="chart-wrapper px-3" style="height:70px;" height="70"/>
+          <!-- <card-bar-chart-example chartId="card-chart-04" class="chart-wrapper px-3" style="height:70px;" height="70"/> -->
+          <div class="brand-card-body">
+            <div>
+              <div class="text-value">89k</div>
+              <div class="text-uppercase text-muted small">friends</div>
+            </div>
+            <div>
+              <div class="text-value">459</div>
+              <div class="text-uppercase text-muted small">feeds</div>
+            </div>
+          </div>
         </b-card>
       </b-col>
     </b-row>
@@ -205,6 +230,7 @@ export default {
     'stations'
   ]),
   components: {
+    mapState,
     Callout,
     CardLine1ChartExample,
     CardLine2ChartExample,
