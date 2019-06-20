@@ -5,6 +5,7 @@ import 'core-js/es6/string'
 import 'core-js/es7/array'
 // import cssVars from 'css-vars-ponyfill'
 import Vue from 'vue'
+import Vuex from 'vuex'
 import BootstrapVue from 'bootstrap-vue'
 import App from './App'
 import router from './router'
@@ -13,6 +14,7 @@ import router from './router'
 // cssVars()
 
 Vue.use(BootstrapVue)
+Vue.use(Vuex)
 
 /* eslint-disable no-new */
 new Vue({
