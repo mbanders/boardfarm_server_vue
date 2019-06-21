@@ -6,6 +6,8 @@ import VueAxios from 'vue-axios'
 Vue.use(Vuex)
 Vue.use(VueAxios, axios)
 
+const base_url = 'http://boardfarm.bluejam.net/api/'
+
 export default new Vuex.Store({
   state: {
      stations: []
@@ -13,20 +15,20 @@ export default new Vuex.Store({
   actions: {
     loadStations ({ commit }) {
         axios
-          .get('http://boardfarm.bluejam.net/api/stations')
+          .get(base_url + 'stations')
           .then(r => r.data)
           .then(stations => {
               commit('SET_STATIONS', stations)
           })
       },
       disableStation (commit, name) {
-        var url = 'http://boardfarm.bluejam.net/api/stations/' + name
+        var url = base_url + 'stations/' + name
         var headers = {'Content-Type': 'application/json'}
         const data = {available_for_autotests: false}
         axios.post(url, data, headers)
       },
       enableStation (commit, name) {
-        var url = 'http://boardfarm.bluejam.net/api/stations/' + name
+        var url = base_url + 'stations/' + name
         var headers = {'Content-Type': 'application/json'}
         const data = {available_for_autotests: true}
         axios.post(url, data, headers)
