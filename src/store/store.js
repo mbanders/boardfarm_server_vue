@@ -18,6 +18,18 @@ export default new Vuex.Store({
           .then(stations => {
               commit('SET_STATIONS', stations)
           })
+      },
+      disableStation (commit, name) {
+        var url = 'http://boardfarm.bluejam.net/api/stations/' + name
+        var headers = {'Content-Type': 'application/json'}
+        const data = {available_for_autotests: false}
+        axios.post(url, data, headers)
+      },
+      enableStation (commit, name) {
+        var url = 'http://boardfarm.bluejam.net/api/stations/' + name
+        var headers = {'Content-Type': 'application/json'}
+        const data = {available_for_autotests: true}
+        axios.post(url, data, headers)
       }
   },
   mutations: {

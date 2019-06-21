@@ -2,16 +2,14 @@
   <div class="animated fadeIn">
     <b-row>
       <b-col sm="6" lg="3" v-for="station in stations" v-bind:key="station.name">
-        <b-card no-body :class="bgColor(station.active_users)">
+        <b-card no-body :class="bgColor(station)">
           <b-card-body class="pb-0">
             <b-dropdown class="float-right" variant="transparent p-0" right>
               <template slot="button-content">
                 <i class="icon-settings"></i>
               </template>
-              <b-dropdown-item>Action</b-dropdown-item>
-              <b-dropdown-item>Another action</b-dropdown-item>
-              <b-dropdown-item>Something else here...</b-dropdown-item>
-              <b-dropdown-item disabled>Disabled action</b-dropdown-item>
+              <b-dropdown-item v-if="station.available_for_autotests==true" v-on:click="disableStation(station.name)">Disable Station</b-dropdown-item>
+              <b-dropdown-item v-else v-on:click="enableStation(station.name)">Enable Station</b-dropdown-item>
             </b-dropdown>
             <h4 class="mb-0">{{ station.name }}</h4>
             <p>Type: {{ station.board_type }}<br>
@@ -63,7 +61,7 @@ export default {
 
     this.interval = setInterval(function () {
       this.$store.dispatch('loadStations')
-    }.bind(this), 5000)
+    }.bind(this), 4000)
   },
   computed: mapState([
     'stations'
@@ -93,8 +91,17 @@ export default {
       }
       return $variant
     },
-    bgColor (value) {
-      if (value >= 1) {
+    disableStation (name) {
+      this.$store.dispatch('disableStation', name)
+    },
+    enableStation (name) {
+      this.$store.dispatch('enableStation', name)
+    },
+    bgColor (station) {
+      if (station.available_for_autotests == false) {
+        return 'bg-secondary'
+      }
+      if (station.active_users >= 1) {
         return 'bg-warning'
       }
       return 'bg-primary'
