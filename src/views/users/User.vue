@@ -3,7 +3,7 @@
     <b-col cols="12" lg="6">
       <b-card no-header>
         <template slot="header">
-          User id:  {{ $route.params.id }}
+          Station name:  {{ $route.params.id }}
         </template>
         <b-table striped small fixed responsive="sm" :items="items($route.params.id)" :fields="fields">
           <template slot="value" slot-scope="data">
@@ -19,9 +19,20 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import usersData from './UsersData'
+
 export default {
   name: 'User',
+  computed: mapState([
+    'stations'
+  ]),
+  components: {
+    mapState
+  },
+  mounted () {
+    this.$store.dispatch('loadStations')
+  },
   props: {
     caption: {
       type: String,
@@ -30,8 +41,8 @@ export default {
   },
   data: () => {
     return {
-      items: (id) => {
-        const user = usersData.find( user => user.id.toString() === id)
+      items: function(id) {
+        const user = this.$store.state.stations.find( user => user.name.toString() === id)
         const userDetails = user ? Object.entries(user) : [['id', 'Not found']]
         return userDetails.map(([key, value]) => {return {key: key, value: value}})
       },
