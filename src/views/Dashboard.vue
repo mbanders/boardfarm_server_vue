@@ -18,17 +18,19 @@
                Location: {{station.location}}<br>
                Features: <span v-for="(x, index) in station.feature" v-bind:key="x">
                    <span>{{x}}</span><span v-if="index+1 < station.feature.length">, </span>
-                </span>
+                </span><br>
+                Last Use: <span v-if="station.prev_user.length>0">{{ station.prev_user}}@{{ station.prev_host}}</span>
             </p>
           </b-card-body>
           <!-- <card-line1-chart-example chartId="card-chart-01" class="chart-wrapper px-3" style="height:70px;" :height="70"/> -->
           <div class="brand-card-body">
             <div>
-              <div class="text-value">{{ station.active_users }}</div>
-              <div class="text-uppercase small">Active Users</div>
+              <div class="text-value small" v-if="station.active_users != 0">{{ station.active_user }}<br>@{{ station.active_host }}</div>
+              <div class="text-value small" v-else><br><br></div>
+              <div class="text-uppercase small">Active User</div>
             </div>
             <div>
-              <div class="text-value">{{ Number(station.total_uses).toLocaleString() }}</div>
+              <div class="text-value"><br>{{ Number(station.total_uses).toLocaleString() }}</div>
               <div class="text-uppercase small">Total Uses</div>
             </div>
           </div>
@@ -61,7 +63,7 @@ export default {
 
     this.interval = setInterval(function () {
       this.$store.dispatch('loadStations')
-    }.bind(this), 30000)
+    }.bind(this), 5000)
   },
   computed: mapState([
     'stations'
