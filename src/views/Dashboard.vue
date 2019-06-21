@@ -12,7 +12,10 @@
               <b-dropdown-item v-else v-on:click="enableStation(station.name)">Enable Station</b-dropdown-item>
             </b-dropdown>
             <a v-bind:href="'#/users/'+station.name" style='color: inherit;text-decoration: inherit;'>
-              <h3 class="mb-0">{{ station.name }}</h3>
+              <h3 class="mb-0">{{ station.name }}
+                <span v-if="station.active_users>0"> (in use)</span>
+                <span v-if="station.available_for_autotests==false"> (disabled)</span>
+              </h3>
             </a>
             <p>Type: {{ station.board_type }}<br>
                Location: {{station.location}}<br>
