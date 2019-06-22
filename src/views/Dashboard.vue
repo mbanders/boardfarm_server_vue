@@ -2,12 +2,13 @@
   <div class="animated fadeIn">
     <b-row>
       <b-col sm="6" lg="3" v-for="station in stations" v-bind:key="station.name">
-        <b-card no-body :class="bgColor(station)">
+        <b-card no-body :class="'shadow '+bgColor(station)">
           <b-card-body class="pb-0">
             <b-dropdown class="float-right" variant="transparent p-0" right>
               <template slot="button-content">
                 <i class="icon-settings"></i>
               </template>
+              <b-dropdown-item v-on:click="clickStation(station.name)">Details...</b-dropdown-item>
               <b-dropdown-item v-if="station.available_for_autotests==true" v-on:click="disableStation(station.name)">Disable Station</b-dropdown-item>
               <b-dropdown-item v-else v-on:click="enableStation(station.name)">Enable Station</b-dropdown-item>
             </b-dropdown>
@@ -95,6 +96,9 @@ export default {
         $variant = 'danger'
       }
       return $variant
+    },
+    clickStation (name) {
+      this.$router.push({path: "users/" + name})
     },
     disableStation (name) {
       this.$store.dispatch('disableStation', name)
