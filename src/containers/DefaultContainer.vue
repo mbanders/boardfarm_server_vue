@@ -1,17 +1,17 @@
 <template>
   <div class="app">
-    <AppHeader fixed style="height:72px">
+    <AppHeader fixed>
       <!-- <SidebarToggler class="d-lg-none" display="md" mobile /> -->
-      <b-link class="navbar-brand" to="/#" style="width:100%">
-        <img class="navbar-brand-full" src="img/brand/BoardFarm.png" width="219" height="71">
-        <img class="navbar-brand-minimized" src="img/brand/sygnet.svg" width="30" height="30">
+      <b-link class="navbar-brand" to="#">
+        <img class="navbar-brand-full" src="img/brand/BoardFarm.png" width="164" height="54" alt="CoreUI Logo">
+        <img class="navbar-brand-minimized" src="img/brand/sygnet.svg" width="30" height="30" alt="CoreUI Logo">
       </b-link>
       <!-- <SidebarToggler class="d-md-down-none" display="lg" :defaultOpen=true /> -->
-      <!-- <b-navbar-nav class="d-md-down-none">
+      <b-navbar-nav class="d-md-down-none">
         <b-nav-item class="px-3" to="/dashboard">Dashboard</b-nav-item>
-        <b-nav-item class="px-3" to="/users" exact>Users</b-nav-item>
-        <b-nav-item class="px-3">Settings</b-nav-item>
-      </b-navbar-nav> -->
+        <!-- <b-nav-item class="px-3" to="/users" exact>Users</b-nav-item>
+        <b-nav-item class="px-3">Settings</b-nav-item> -->
+      </b-navbar-nav>
       <!-- <b-navbar-nav class="ml-auto">
         <b-nav-item class="d-md-down-none">
           <i class="icon-bell"></i>
@@ -37,8 +37,7 @@
         <SidebarMinimizer/>
       </AppSidebar>
       <main class="main">
-        <br><br>
-        <!-- <Breadcrumb :list="list"/> -->
+        <Breadcrumb :list="list"/>
         <div class="container-fluid">
           <router-view></router-view>
         </div>
