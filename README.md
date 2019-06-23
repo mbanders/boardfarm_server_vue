@@ -55,9 +55,14 @@ This frontend web app is only static files, so it could be served by any webserv
     npm run build
     ```
     The above creates a `dist/` directory containing an `index.html` and other files.
-1. Modify your apache site configuration file, default is `/etc/apache2/sites-enabled/000-default.conf`. The `DocumentRoot` needs to have the full path to the `dist/` directory from above step. And then add the two proxy lines are so that you can serve the boardfarm server backend being served by node:
+1. Modify your apache site configuration file, default is `/etc/apache2/sites-enabled/000-default.conf`. The full path to the `dist/` directory from above step is needed in two spots. And then add the two proxy lines are so that you can serve the boardfarm server backend being served by node:
     ```apache
     <VirtualHost *:80>
+        <Directory /path/to/boardfarm_server_vue/dist>
+            Options FollowSymLinks
+            AllowOverride None
+            Require all granted
+        </Directory>
         ...
         DocumentRoot /path/to/boardfarm_server_vue/dist
         ...
@@ -65,19 +70,6 @@ This frontend web app is only static files, so it could be served by any webserv
         ProxyRequests on
         ProxyPass /api/ http://localhost:5001/api/
     </VirtualHost>
-    ```
-1. Modify `/etc/apache2/apache2.conf` to allow serving the directory where `dist/` is located.
-    ```apache
-    <Directory />
-      Options FollowSymLinks
-      AllowOverride None
-      Require all denied
-    </Directory>
-    <Directory /path/to/boardfarm_server_vue/dist/>
-      Options FollowSymLinks
-      AllowOverride None
-      Require all granted
-    </Directory>
     ```
 1. Restart apache
     ```sh
