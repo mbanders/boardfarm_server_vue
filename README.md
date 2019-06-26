@@ -67,7 +67,8 @@ This frontend web app is only static files, so it could be served by any webserv
         DocumentRoot /path/to/boardfarm_server_vue/dist
         ...
         
-        ProxyRequests on
+        # Reverse proxy to the backend REST api. This is optional, and you
+        # probably run the REST api on a different port anyway.
         ProxyPass /api/ http://localhost:5001/api/
     </VirtualHost>
     ```
