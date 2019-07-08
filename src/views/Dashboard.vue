@@ -9,7 +9,7 @@
                 <i class="icon-settings"></i>
               </template>
               <b-dropdown-item v-on:click="clickStation(station.name)">Details...</b-dropdown-item>
-              <b-dropdown-item v-if="station.available_for_autotests==true" v-on:click="disableStation(station.name)">Disable Station</b-dropdown-item>
+              <b-dropdown-item v-if="station.available_for_autotests==true" v-on:click="getDisableReason(station.name)">Disable Station</b-dropdown-item>
               <b-dropdown-item v-else v-on:click="enableStation(station.name)">Enable Station</b-dropdown-item>
             </b-dropdown>
             <a v-bind:href="'#/users/'+station.name" class="nocolor">
@@ -18,7 +18,8 @@
                 <span v-if="station.available_for_autotests==false"> (disabled)</span>
               </h3>
             </a>
-            <p>Type: {{ station.board_type }}<br>
+            <p><span v-if="station.note !== null"><b>Note: {{ station.note }}</b><br></span>
+               Type: {{ station.board_type }}<br>
                Location: {{station.location}}<br>
                Features: <span v-for="(x, index) in station.feature" v-bind:key="x">
                    <span>{{x}}</span><span v-if="index+1 < station.feature.length">, </span>
@@ -47,6 +48,13 @@
         </b-card>
       </b-col>
     </b-row>
+
+    <!-- Modal (Popup) -->
+    <b-modal title="Disable station" class="modal-danger" v-model="dangerModal" @ok="disableStation(selectedStationName, selectedStationReason)" ok-variant="danger">
+      <b-form-group>
+        <b-form-input v-model.lazy="selectedStationReason" type="text" id="reason" placeholder="Reason for disabling station..."></b-form-input>
+      </b-form-group>
+    </b-modal>
   </div>
 </template>
 
@@ -65,7 +73,9 @@ export default {
   name: 'dashboard',
   data: function () {
     return {
-      selected: 'Month'
+      dangerModal: false,
+      selectedStationName: null,
+      selectedStationReason: null
     }
   },
   mounted () {
@@ -106,8 +116,14 @@ export default {
     clickStation (name) {
       this.$router.push({path: "users/" + name})
     },
-    disableStation (name) {
-      this.$store.dispatch('disableStation', name)
+    getDisableReason (name) {
+      this.selectedStationReason = null
+      this.dangerModal = true
+      this.selectedStationName = name
+    },
+    disableStation (name, reason) {
+      this.dangerModal = false
+      this.$store.dispatch('disableStation', {name, reason})
     },
     enableStation (name) {
       this.$store.dispatch('enableStation', name)

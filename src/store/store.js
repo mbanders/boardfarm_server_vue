@@ -21,16 +21,22 @@ export default new Vuex.Store({
               commit('SET_STATIONS', stations)
           })
       },
-      disableStation (commit, name) {
+      disableStation (commit, {name, reason}) {
         var url = base_url + 'stations/' + name
         var headers = {'Content-Type': 'application/json'}
-        const data = {available_for_autotests: false}
+        const data = {
+          available_for_autotests: false,
+          note: reason
+        }
         axios.post(url, data, headers)
       },
       enableStation (commit, name) {
         var url = base_url + 'stations/' + name
         var headers = {'Content-Type': 'application/json'}
-        const data = {available_for_autotests: true}
+        const data = {
+          available_for_autotests: true,
+          note: null
+        }
         axios.post(url, data, headers)
       }
   },
