@@ -50,9 +50,19 @@
     </b-row>
 
     <!-- Modal (Popup) -->
-    <b-modal title="Disable station" class="modal-danger" v-model="dangerModal" @ok="disableStation(selectedStationName, selectedStationReason)" ok-variant="danger">
+    <b-modal :title="'Disable station '+selectedStationName"
+             header-bg-variant="danger"
+             v-model="dangerModal"
+             @ok="disableStation(selectedStationName, selectedStationReason)"
+             ok-variant="danger"
+             :ok-disabled="selectedStationReason === null"
+             ok-title="Disable">
       <b-form-group>
-        <b-form-input v-model.lazy="selectedStationReason" type="text" id="reason" placeholder="Reason for disabling station..."></b-form-input>
+        <b-form-input v-model="selectedStationReason"
+                      type="text"
+                      id="reason"
+                      placeholder="Reason for disabling ...">
+        </b-form-input>
       </b-form-group>
     </b-modal>
   </div>
