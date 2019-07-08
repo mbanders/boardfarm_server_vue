@@ -12,7 +12,7 @@
               <b-dropdown-item v-if="station.available_for_autotests==true" v-on:click="disableStation(station.name)">Disable Station</b-dropdown-item>
               <b-dropdown-item v-else v-on:click="enableStation(station.name)">Enable Station</b-dropdown-item>
             </b-dropdown>
-            <a v-bind:href="'#/users/'+station.name" style='color: inherit;text-decoration: inherit;'>
+            <a v-bind:href="'#/users/'+station.name" class="nocolor">
               <h3 class="mb-0">{{ station.name }}
                 <span v-if="station.active_users>0"> (in use)</span>
                 <span v-if="station.available_for_autotests==false"> (disabled)</span>
@@ -23,13 +23,19 @@
                Features: <span v-for="(x, index) in station.feature" v-bind:key="x">
                    <span>{{x}}</span><span v-if="index+1 < station.feature.length">, </span>
                 </span><br>
-                Last Use: <span v-if="station.prev_user.length>0">{{ station.prev_user}}@{{ station.prev_host}}</span>
+                Last Use: <span v-if="station.prev_user.length>0">
+                            <span v-if="station.prev_url"><a v-bind:href="station.prev_url" class="nocolor">{{ station.prev_user}}@{{ station.prev_host}}</a></span>
+                            <span v-else>{{ station.prev_user}}@{{ station.prev_host}}</span>
+                          </span>
             </p>
           </b-card-body>
           <!-- <card-line1-chart-example chartId="card-chart-01" class="chart-wrapper px-3" style="height:70px;" :height="70"/> -->
           <div class="brand-card-body">
             <div>
-              <div class="text-value small" v-if="station.active_users != 0">{{ station.active_user }}<br>@{{ station.active_host }}</div>
+              <div class="text-value small" v-if="station.active_users != 0">
+                <span v-if="station.active_url"><a v-bind:href="station.active_url" class="nocolor">{{ station.active_user }}<br>@{{ station.active_host }}</a></span>
+                <span v-else>{{ station.active_user }}<br>@{{ station.active_host }}</span>
+              </div>
               <div class="text-value small" v-else><br><br></div>
               <div class="text-uppercase small">Active User</div>
             </div>
@@ -126,5 +132,9 @@ export default {
   /* IE fix */
   #card-chart-01, #card-chart-02 {
     width: 100% !important;
+  }
+  a.nocolor {
+    color: inherit;
+    text-decoration: inherit;
   }
 </style>
