@@ -1,22 +1,25 @@
 <template>
   <b-row>
-    <b-col cols="12" xl="6">
+    <b-col cols="12" xl="8">
       <transition name="slide">
       <b-card>
-        <div slot="header" v-html="caption"></div>
-        <b-table :hover="hover" :striped="striped" :bordered="bordered" :small="small" :fixed="fixed" responsive="sm" :items="items" :fields="fields" :current-page="currentPage" :per-page="perPage" @row-clicked="rowClicked">
+        <!-- <div slot="header" v-html="caption"></div> -->
+        <b-table :hover="hover" :striped="striped" :bordered="bordered" :small="small" :fixed="fixed" responsive="sm" :items="stations" :fields="fields" :current-page="currentPage" :per-page="perPage" @row-clicked="rowClicked">
           <template slot="id" slot-scope="data">
             <strong>{{data.item.id}}</strong>
           </template>
           <template slot="name" slot-scope="data">
             <strong>{{data.item.name}}</strong>
           </template>
-          <template slot="status" slot-scope="data">
-            <b-badge :variant="getBadge(data.item.status)">{{data.item.status}}</b-badge>
+          <template slot="active_user" slot-scope="data">
+            <span v-if="data.item.active_user != ''">{{ data.item.active_user }}@{{ data.item.active_host }}</span>
+          </template>
+          <template slot="prev_user" slot-scope="data">
+            <span v-if="data.item.prev_user != ''">{{ data.item.prev_user }}@{{ data.item.prev_host }}</span>
           </template>
         </b-table>
         <nav>
-          <b-pagination size="sm" :total-rows="getRowCount(items)" :per-page="perPage" v-model="currentPage" prev-text="Prev" next-text="Next" hide-goto-end-buttons/>
+          <b-pagination size="sm" :total-rows="getRowCount(stations)" :per-page="perPage" v-model="currentPage" prev-text="Prev" next-text="Next" hide-goto-end-buttons/>
         </nav>
       </b-card>
       </transition>
@@ -25,13 +28,14 @@
 </template>
 
 <script>
-import usersData from './UsersData'
+import { mapState } from 'vuex'
+
 export default {
   name: 'Users',
   props: {
     caption: {
       type: String,
-      default: 'Users'
+      default: 'Stations'
     },
     hover: {
       type: Boolean,
@@ -47,7 +51,7 @@ export default {
     },
     small: {
       type: Boolean,
-      default: false
+      default: true
     },
     fixed: {
       type: Boolean,
@@ -56,36 +60,31 @@ export default {
   },
   data: () => {
     return {
-      items: usersData.filter((user) => user.id < 42),
       fields: [
-        {key: 'id'},
         {key: 'name'},
-        {key: 'registered'},
-        {key: 'role'},
-        {key: 'status'}
+        {key: 'board_type'},
+        {key: 'total_uses'},
+        {key: 'location'},
+        {key: 'active_user'},
+        {key: 'prev_user'}
       ],
       currentPage: 1,
-      perPage: 5,
+      perPage: 75,
       totalRows: 0
     }
   },
-  computed: {
-  },
+  computed: mapState([
+    'stations'
+  ]),
   methods: {
-    getBadge (status) {
-      return status === 'Active' ? 'success'
-        : status === 'Inactive' ? 'secondary'
-          : status === 'Pending' ? 'warning'
-            : status === 'Banned' ? 'danger' : 'primary'
-    },
     getRowCount (items) {
       return items.length
     },
     userLink (id) {
-      return `users/${id.toString()}`
+      return `stations/${id.toString()}`
     },
     rowClicked (item) {
-      const userLink = this.userLink(item.id)
+      const userLink = this.userLink(item.name)
       this.$router.push({path: userLink})
     }
 
