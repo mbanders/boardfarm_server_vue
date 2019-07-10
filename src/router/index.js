@@ -113,8 +113,8 @@ export default new Router({
           component: Widgets
         },
         {
-          path: 'users',
-          meta: { label: 'Users'},
+          path: 'stations',
+          meta: { label: 'Stations'},
           component: {
             render (c) { return c('router-view') }
           },
@@ -125,8 +125,8 @@ export default new Router({
             },
             {
               path: ':id',
-              meta: { label: 'User Details'},
-              name: 'User',
+              meta: { label: 'Station Details'},
+              name: 'Station',
               component: User,
             },
           ]

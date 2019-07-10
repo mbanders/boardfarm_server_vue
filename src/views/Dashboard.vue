@@ -12,7 +12,7 @@
               <b-dropdown-item v-if="station.available_for_autotests==true" v-on:click="getDisableReason(station.name)">Disable Station</b-dropdown-item>
               <b-dropdown-item v-else v-on:click="enableStation(station.name)">Enable Station</b-dropdown-item>
             </b-dropdown>
-            <router-link v-bind:to="'/users/'+station.name" class="nocolor">
+            <router-link v-bind:to="'/stations/'+station.name" class="nocolor">
               <h3 class="mb-0">{{ station.name }}
                 <span v-if="station.active_users>0"> (in use)</span>
                 <span v-if="station.available_for_autotests==false"> (disabled)</span>
@@ -124,7 +124,7 @@ export default {
       return $variant
     },
     clickStation (name) {
-      this.$router.push({path: "users/" + name})
+      this.$router.push({path: "stations/" + name})
     },
     getDisableReason (name) {
       this.selectedStationReason = null
