@@ -12,12 +12,12 @@
               <b-dropdown-item v-if="station.available_for_autotests==true" v-on:click="getDisableReason(station.name)">Disable Station</b-dropdown-item>
               <b-dropdown-item v-else v-on:click="enableStation(station.name)">Enable Station</b-dropdown-item>
             </b-dropdown>
-            <a v-bind:href="'#/users/'+station.name" class="nocolor">
+            <router-link v-bind:to="'/users/'+station.name" class="nocolor">
               <h3 class="mb-0">{{ station.name }}
                 <span v-if="station.active_users>0"> (in use)</span>
                 <span v-if="station.available_for_autotests==false"> (disabled)</span>
               </h3>
-            </a>
+            </router-link>
             <p><span v-if="station.note !== null"><b>Note: {{ station.note }}</b><br></span>
                Type: {{ station.board_type }}<br>
                Location: {{station.location}}<br>
@@ -159,7 +159,7 @@ export default {
   #card-chart-01, #card-chart-02 {
     width: 100% !important;
   }
-  a.nocolor {
+  .nocolor {
     color: inherit;
     text-decoration: inherit;
   }
