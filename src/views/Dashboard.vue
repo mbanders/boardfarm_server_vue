@@ -30,7 +30,7 @@
                 <span v-if="station.available_for_autotests==false"> (disabled)</span>
               </h3>
             </router-link>
-            <p><span v-if="station.note !== null"><b>Note: {{ station.note }}</b><br></span>
+            <p><span v-if="station.note !== ''"><b>Note: {{ station.note }}</b><br></span>
                Type: {{ station.board_type }}<br>
                Location: {{station.location}}<br>
                Features: <span v-for="(x, index) in station.feature" v-bind:key="x">

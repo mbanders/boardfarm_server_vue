@@ -35,7 +35,7 @@ export default new Vuex.Store({
         var headers = {'Content-Type': 'application/json'}
         const data = {
           available_for_autotests: true,
-          note: null
+          note: ''
         }
         axios.post(url, data, headers)
       }
