@@ -1,7 +1,19 @@
 <template>
   <div class="animated fadeIn">
     <b-row>
-      <b-col sm="6" lg="3" v-for="station in stations" v-bind:key="station.name">
+      <b-col sm="6" lg="3">
+        <b-form-group cols="6" xl="6" >
+          <b-input-group>
+            <b-form-input v-model="filter" placeholder="Search"></b-form-input>
+            <b-input-group-append>
+              <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
+            </b-input-group-append>
+          </b-input-group>
+        </b-form-group>
+      </b-col>
+    </b-row>
+    <b-row>
+      <b-col sm="6" lg="3" v-for="station in filteredStations" v-bind:key="station.name">
         <b-card no-body :class="'shadow '+bgColor(station)">
           <b-card-body class="pb-0">
             <b-dropdown class="float-right" variant="transparent p-0" right>
@@ -83,6 +95,7 @@ export default {
   name: 'dashboard',
   data: function () {
     return {
+      filter: '',
       dangerModal: false,
       selectedStationName: null,
       selectedStationReason: null
@@ -93,11 +106,20 @@ export default {
 
     this.interval = setInterval(function () {
       this.$store.dispatch('loadStations')
-    }.bind(this), 4000)
+    }.bind(this), 5000)
   },
-  computed: mapState([
-    'stations'
-  ]),
+  computed: {
+    filteredStations: function() {
+      return this.stations.filter((x) => {
+        if (this.filter !== '') {
+          return x.name.includes(this.filter) || x.location.includes(this.filter) || x.feature.join(" ").includes(this.filter)
+        } else {
+          return true
+        }
+      })
+    },
+    ...mapState(['stations']),
+  },
   components: {
     mapState,
     Callout,
