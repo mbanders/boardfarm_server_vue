@@ -11,6 +11,9 @@
           </b-input-group>
         </b-form-group>
       </b-col>
+      <b-col sm="6" lg="3">
+        <p class="small"><br>{{ filteredStations.length }} of {{ stations.length }} stations.</p>
+      </b-col>
     </b-row>
     <b-row>
       <b-col sm="6" lg="3" v-for="station in filteredStations" v-bind:key="station.name">
