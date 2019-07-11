@@ -36,7 +36,7 @@
                Features: <span v-for="(x, index) in station.feature" v-bind:key="x">
                    <span>{{x}}</span><span v-if="index+1 < station.feature.length">, </span>
                 </span><br>
-                Last Use: <span v-if="station.prev_user.length>0">
+                Last User: <span v-if="station.prev_user.length>0">
                             <span v-if="station.prev_url"><a v-bind:href="station.prev_url" class="nocolor">{{ station.prev_user}}@{{ station.prev_host}}</a></span>
                             <span v-else>{{ station.prev_user}}@{{ station.prev_host}}</span>
                           </span>
