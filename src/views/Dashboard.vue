@@ -112,7 +112,11 @@ export default {
     filteredStations: function() {
       return this.stations.filter((x) => {
         if (this.filter !== '') {
-          return x.name.includes(this.filter) || x.location.includes(this.filter) || x.feature.join(" ").includes(this.filter)
+          return x.name.includes(this.filter) ||
+                 x.location.includes(this.filter) ||
+                 x.feature.join(" ").includes(this.filter) ||
+                 x.active_user.includes(this.filter) ||
+                 x.active_host.includes(this.filter)
         } else {
           return true
         }
