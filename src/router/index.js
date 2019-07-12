@@ -7,6 +7,7 @@ const DefaultContainer = () => import('@/containers/DefaultContainer')
 // Views
 const Dashboard = () => import('@/views/Dashboard')
 const About = () => import('@/views/About')
+const Admin = () => import('@/views/Admin')
 
 const Colors = () => import('@/views/theme/Colors')
 const Typography = () => import('@/views/theme/Typography')
@@ -81,6 +82,11 @@ export default new Router({
           path: 'about',
           name: 'About',
           component: About
+        },
+        {
+          path: 'admin',
+          name: 'Admin',
+          component: Admin
         },
         {
           path: 'theme',

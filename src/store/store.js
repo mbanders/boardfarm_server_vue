@@ -38,6 +38,14 @@ export default new Vuex.Store({
           note: ''
         }
         axios.post(url, data, headers)
+      },
+      uploadConfig (commit, data) {
+        var url = base_url + 'bf_config'
+        var headers = {'Content-Type': 'application/json'}
+        axios.post(url, data, headers)
+          .then( (response) => {
+          })
+          .catch(error => error)
       }
   },
   mutations: {
