@@ -21,6 +21,16 @@ export default new Vuex.Store({
               commit('SET_STATIONS', stations)
           })
       },
+      clearStation (commit, name) {
+        var url = base_url + 'stations/' + name
+        var headers = {'Content-Type': 'application/json'}
+        const data = {
+          active_user: '',
+          active_host: '',
+          active_users: 0
+        }
+        axios.post(url, data, headers)
+      },
       disableStation (commit, {name, reason}) {
         var url = base_url + 'stations/' + name
         var headers = {'Content-Type': 'application/json'}

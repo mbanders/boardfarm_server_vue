@@ -26,6 +26,7 @@
               <b-dropdown-item v-on:click="clickStation(station.name)">Details...</b-dropdown-item>
               <b-dropdown-item v-if="station.available_for_autotests==true" v-on:click="getDisableReason(station.name)">Disable Station</b-dropdown-item>
               <b-dropdown-item v-else v-on:click="enableStation(station.name)">Enable Station</b-dropdown-item>
+              <b-dropdown-item v-on:click="clearModal=true;selectedStationName=station.name">Check-in Station</b-dropdown-item>
             </b-dropdown>
             <router-link v-bind:to="'/stations/'+station.name" class="nocolor">
               <h3 class="mb-0">{{ station.name }}
@@ -64,7 +65,7 @@
       </b-col>
     </b-row>
 
-    <!-- Modal (Popup) -->
+    <!-- Modals (Popups) -->
     <b-modal :title="'Disable station '+selectedStationName"
              header-bg-variant="danger"
              v-model="dangerModal"
@@ -80,6 +81,18 @@
         </b-form-input>
       </b-form-group>
     </b-modal>
+
+    <b-modal :title="'Check-in station '+selectedStationName"
+             header-bg-variant="danger"
+             v-model="clearModal"
+             @ok="clearStation(selectedStationName)"
+             ok-variant="danger"
+             ok-title="Check In">
+        <p>This does not kick a user from a board. This only changes the database so
+          that the active user field is empty. Useful if a job failed to check-in a
+          station for some reason.
+        </p>
+    </b-modal>
   </div>
 </template>
 
@@ -92,6 +105,7 @@ export default {
     return {
       filter: '',
       dangerModal: false,
+      clearModal: false,
       selectedStationName: null,
       selectedStationReason: null
     }
@@ -122,6 +136,10 @@ export default {
     mapState
   },
   methods: {
+    clearStation (name) {
+      this.clearModal = false
+      this.$store.dispatch('clearStation', name)
+    },
     clickStation (name) {
       this.$router.push({path: "stations/" + name})
     },
