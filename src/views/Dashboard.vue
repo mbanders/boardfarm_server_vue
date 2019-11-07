@@ -50,8 +50,12 @@
           <div class="brand-card-body">
             <div>
               <div class="text-value small" v-if="station.active_users != 0">
-                <span v-if="station.active_url"><a v-bind:href="station.active_url" class="nocolor">{{ station.active_user }}<br>@{{ station.active_host }}</a></span>
+                <span v-if="station.active_url">
+                  <a v-bind:href="station.active_url" class="nocolor">{{ station.active_user }}<br>@{{ station.active_host }}</a>
+                </span>
                 <span v-else>{{ station.active_user }}<br>@{{ station.active_host }}</span>
+                <br>
+                for {{ timePassed(station.active_timestart) }}
               </div>
               <div class="text-value small" v-else><br><br></div>
               <div class="text-uppercase small">Active User</div>
@@ -136,6 +140,19 @@ export default {
     mapState
   },
   methods: {
+    timePassed (start_time) {
+      start_time = Date.parse(start_time)
+      var now = new Date()
+      var delta = Math.abs(now - start_time) / 1000
+      var hours_passed = Math.floor(delta / 3600)
+      delta -= hours_passed * 3600
+      var minutes_passed = Math.floor(delta / 60) % 60
+      if (hours_passed < 1) {
+        return minutes_passed.toString() + " min"
+      } else {
+        return hours_passed.toString() + "h " + minutes_passed.toString() + "m"
+      }
+    },
     clearStation (name) {
       this.clearModal = false
       this.$store.dispatch('clearStation', name)
