@@ -35,8 +35,8 @@ export default new Vuex.Store({
         var url = base_url + 'stations/' + name
         var headers = {'Content-Type': 'application/json'}
         const data = {
-          available_for_autotests: false,
-          note: reason
+          '_meta.available_for_autotests': false,
+          '_meta.note': reason
         }
         axios.post(url, data, headers)
       },
@@ -44,8 +44,8 @@ export default new Vuex.Store({
         var url = base_url + 'stations/' + name
         var headers = {'Content-Type': 'application/json'}
         const data = {
-          available_for_autotests: true,
-          note: ''
+          '_meta.available_for_autotests': true,
+          '_meta.note': ''
         }
         axios.post(url, data, headers)
       },

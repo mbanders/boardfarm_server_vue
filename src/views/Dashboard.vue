@@ -24,17 +24,17 @@
                 <i class="icon-settings"></i>
               </template>
               <b-dropdown-item v-on:click="clickStation(station.name)">Details...</b-dropdown-item>
-              <b-dropdown-item v-if="station.available_for_autotests==true" v-on:click="getDisableReason(station.name)">Disable Station</b-dropdown-item>
+              <b-dropdown-item v-if="station._meta.available_for_autotests==true" v-on:click="getDisableReason(station.name)">Disable Station</b-dropdown-item>
               <b-dropdown-item v-else v-on:click="enableStation(station.name)">Enable Station</b-dropdown-item>
               <b-dropdown-item v-on:click="clearModal=true;selectedStationName=station.name">Check-in Station</b-dropdown-item>
             </b-dropdown>
             <router-link v-bind:to="'/stations/'+station.name" class="nocolor">
               <h3 class="mb-0">{{ station.name }}
                 <span v-if="station.active_users>0"> (in use)</span>
-                <span v-if="station.available_for_autotests==false"> (disabled)</span>
+                <span v-if="station._meta.available_for_autotests==false"> (disabled)</span>
               </h3>
             </router-link>
-            <p><span v-if="station.note !== ''"><b>Note: {{ station.note }}</b><br></span>
+            <p><span v-if="station._meta.note !== ''"><b>Note: {{ station._meta.note }}</b><br></span>
                Type: {{ station.board_type }}<br>
                Location: {{station.location}}<br>
                Features: <span v-for="(x, index) in station.feature" v-bind:key="x">
@@ -57,7 +57,7 @@
               <div class="text-uppercase small">Active User</div>
             </div>
             <div>
-              <div class="text-value"><br>{{ Number(station.total_uses).toLocaleString() }}</div>
+              <div class="text-value"><br>{{ Number(station._meta.total_uses) }}</div>
               <div class="text-uppercase small">Total Uses</div>
             </div>
           </div>
@@ -156,7 +156,7 @@ export default {
       this.$store.dispatch('enableStation', name)
     },
     bgColor (station) {
-      if (station.available_for_autotests == false) {
+      if (station._meta.available_for_autotests == false) {
         return 'bg-secondary'
       }
       if (station.active_users >= 1) {
