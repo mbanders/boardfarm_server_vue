@@ -48,7 +48,7 @@
           </b-card-body>
           <!-- <card-line1-chart-example chartId="card-chart-01" class="chart-wrapper px-3" style="height:70px;" :height="70"/> -->
           <div class="brand-card-body">
-            <div>
+            <div style="flex: 3 1 auto">
               <div class="text-value small" v-if="station.active_users != 0">
                 <span v-if="station.active_url">
                   <a v-bind:href="station.active_url" class="nocolor">{{ station.active_user }}<br>@{{ station.active_host }}</a>
@@ -60,7 +60,7 @@
               <div class="text-value small" v-else><br><br></div>
               <div class="text-uppercase small">Active User</div>
             </div>
-            <div>
+            <div style="flex: 1 1 auto">
               <div class="text-value"><br>{{ Number(station._meta.total_uses) }}</div>
               <div class="text-uppercase small">Total Uses</div>
             </div>
