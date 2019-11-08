@@ -1,6 +1,9 @@
 <template>
   <div class="animated fadeIn">
     <b-row>
+      <b-col sm="1" lg="1" style="min-width:120px">
+        <h2>Stations</h2>
+      </b-col>
       <b-col sm="6" lg="3">
         <b-form-group cols="6" xl="6" >
           <b-input-group>
@@ -53,7 +56,7 @@
                 <span v-if="station.active_url">
                   <a v-bind:href="station.active_url" class="nocolor">{{ station.active_user }}<br>@{{ station.active_host }}</a>
                 </span>
-                <span v-else>{{ station.active_user }}<br>@{{ station.active_host }}</span>
+                <span v-else>{{ station.active_user }}<wbr>@{{ station.active_host }}</span>
                 <br>
                 for {{ timePassed(station.active_timestart) }}
               </div>
@@ -62,6 +65,40 @@
             </div>
             <div style="flex: 1 1 auto">
               <div class="text-value"><br>{{ Number(station._meta.total_uses) }}</div>
+              <div class="text-uppercase small">Total Uses</div>
+            </div>
+          </div>
+        </b-card>
+      </b-col>
+    </b-row>
+    <hr>
+    <b-row>
+      <b-col sm="1" lg="1" style="min-width:120px">
+        <h2>Devices</h2>
+      </b-col>
+    </b-row>
+    <b-row>
+      <b-col sm="6" lg="3" v-for="dev in devices" v-bind:key="dev._id">
+        <b-card no-body :class="'shadow '+bgColorDevices(dev)">
+          <b-card-body class="pb-0">
+              <h3 class="mb-0">{{ dev.name }}
+                <span v-if="dev.active_users>0"> (in use)</span>
+              </h3>
+            <p>Type: {{ dev.type }}<br>
+               Location: {{dev.location}}<br>
+               IP Address: {{dev.ipaddr}}
+            </p>
+          </b-card-body>
+          <div class="brand-card-body">
+            <div style="flex: 3 1 auto">
+              <div class="text-value small" v-if="dev.active_users != 0">
+                <span>{{ dev.active_user }}<wbr>@{{ dev.active_host }}</span>
+              </div>
+              <div class="text-value small" v-else><br></div>
+              <div class="text-uppercase small">Active User</div>
+            </div>
+            <div style="flex: 1 1 auto">
+              <div class="text-value" v-if="dev._meta != undefined"><br>{{ Number(dev._meta.total_uses) }}</div>
               <div class="text-uppercase small">Total Uses</div>
             </div>
           </div>
@@ -115,9 +152,11 @@ export default {
     }
   },
   mounted () {
+    this.$store.dispatch('loadDevices')
     this.$store.dispatch('loadStations')
 
     this.interval = setInterval(function () {
+      this.$store.dispatch('loadDevices')
       this.$store.dispatch('loadStations')
     }.bind(this), 5000)
   },
@@ -134,7 +173,7 @@ export default {
                x.active_host.includes(this.filter)
       })
     },
-    ...mapState(['stations']),
+    ...mapState(['stations','devices']),
   },
   components: {
     mapState
@@ -171,6 +210,12 @@ export default {
     },
     enableStation (name) {
       this.$store.dispatch('enableStation', name)
+    },
+    bgColorDevices (device) {
+      if (device.active_users >= 1) {
+        return 'bg-warning'
+      }
+      return 'bg-primary'
     },
     bgColor (station) {
       if (station._meta.available_for_autotests == false) {

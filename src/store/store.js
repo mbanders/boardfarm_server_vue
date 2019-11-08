@@ -10,9 +10,18 @@ const base_url = 'http://boardfarm.bluejam.net/api/'
 
 export default new Vuex.Store({
   state: {
+     devices: [],
      stations: []
   },
   actions: {
+    loadDevices ({ commit }) {
+      axios
+        .get(base_url + 'devices')
+        .then(r => r.data)
+        .then(devices => {
+            commit('SET_DEVICES', devices)
+        })
+    },
     loadStations ({ commit }) {
         axios
           .get(base_url + 'stations')
@@ -59,6 +68,9 @@ export default new Vuex.Store({
       }
   },
   mutations: {
+    SET_DEVICES (state, devices) {
+      state.devices = devices
+    },
     SET_STATIONS (state, stations) {
         state.stations = stations
       }
