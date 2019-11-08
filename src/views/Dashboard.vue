@@ -54,7 +54,7 @@
             <div style="flex: 3 1 auto">
               <div class="text-value small" v-if="station.active_users != 0">
                 <span v-if="station.active_url">
-                  <a v-bind:href="station.active_url" class="nocolor">{{ station.active_user }}<br>@{{ station.active_host }}</a>
+                  <a v-bind:href="station.active_url" class="nocolor">{{ station.active_user }}<wbr>@{{ station.active_host }}</a>
                 </span>
                 <span v-else>{{ station.active_user }}<wbr>@{{ station.active_host }}</span>
                 <br>
@@ -98,7 +98,8 @@
               <div class="text-uppercase small">Active User</div>
             </div>
             <div style="flex: 1 1 auto">
-              <div class="text-value" v-if="dev._meta != undefined"><br>{{ Number(dev._meta.total_uses) }}</div>
+              <div class="text-value" v-if="dev._meta != undefined">{{ Number(dev._meta.total_uses) }}</div>
+              <div class="text-value small" v-else><br></div>
               <div class="text-uppercase small">Total Uses</div>
             </div>
           </div>
