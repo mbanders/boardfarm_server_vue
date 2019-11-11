@@ -59,6 +59,7 @@
                 <span v-else>{{ station.active_user }}<wbr>@{{ station.active_host }}</span>
                 <br>
                 for {{ timePassed(station.active_timestart) }}
+                <span v-if="station._meta != undefined"><br>{{ station._meta.active_msg }}</span>
               </div>
               <div class="text-value small" v-else><br><br></div>
               <div class="text-uppercase small">Active User</div>
